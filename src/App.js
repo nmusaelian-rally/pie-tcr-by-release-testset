@@ -29,7 +29,6 @@
     
     _onTestSetsLoaded:function(store, records){
 	var setsWithCases = [];
-        //var testsets = [];
         var that = this;
         var promises = [];
 	_.each(records, function(testset){
@@ -99,7 +98,10 @@
 		tpl: Ext.create('Rally.ui.renderer.template.FormattedIDTemplate') 
 	    },
 	    {
-	      text: 'Name', dataIndex: 'Name', flex: 1
+	      text: 'Name', dataIndex: 'Name',
+	    },
+	     {
+	      text: 'Iteration', dataIndex: 'Iteration'
 	    },
 	    {
 		text: 'TestCases', dataIndex: 'TestCases', flex:1,
@@ -112,15 +114,11 @@
 		}
 	    },
 	    {
-	      text: 'Iteration', dataIndex: 'Iteration'
-	    },
-	    {
 	      text: 'Test Case Results',
 	      renderer: function (value, model, record) {
 		  console.log('record', record)
 		  var id = Ext.id();
 		  Ext.defer(function () {
-		      //Ext.widget('button', {
 		      Ext.create('Rally.ui.Button',{
 			  renderTo: id,
 			  text: 'TCR of ' + record.data.FormattedID,
@@ -138,7 +136,7 @@
     },
     
     _seeResults: function(testSetRecord) {
-      var testset = testSetRecord._ref;
+      this._testset = testSetRecord;
       this._myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait.This may take long if you have thousands of results..."});
       this._myMask.show();
       this._myStore = Ext.create('Rally.data.WsapiDataStore', {
@@ -148,7 +146,7 @@
 	filters:[
 	 {
 	   property: 'TestSet',
-	   value: testset
+	   value: this._testset._ref
 	 }
 	],
 	autoLoad: true,
@@ -213,7 +211,7 @@
 				type: 'pie'
 			    },
 			    title: {
-				text: 'TestCaseResults Verdict Counts',
+				text: 'TestCaseResults Verdict Counts for ' + this._testset.FormattedID,
 				align: 'center'
 			    },
 			    tooltip: {
