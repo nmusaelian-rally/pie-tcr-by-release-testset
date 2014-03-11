@@ -1,0 +1,16 @@
+{
+    "name": "Pie with TCR by Rel",
+    "className": "CustomApp",
+    "server": "https://rally1.rallydev.com",
+    "sdk": "x",
+    "remote_javascript": [
+    ],
+    "javascript": [
+        "src/App.js"
+    ],
+    "remote_css": [
+    ],
+    "css": [
+        "styles/app.css"
+    ]
+}
